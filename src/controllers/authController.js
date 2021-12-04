@@ -35,7 +35,31 @@ module.exports = {
             );
     },
     signin: async (req, res) => {
-        
+        try{
+            validateRequest(req, (errors) =>  { throw {status: 400, errors} });
+
+            const { email, password } = req.body;
+
+            const user = await db.User.findOne({email});
+
+            if(!user) throw {status: 400, errors: 'Credenciales Invalidas'}
+
+            if(!bcryptjs.compareSync(password, user.password)) throw {status: 400, errors: 'Credenciales Invalidas'}
+
+            generateJWT({
+                user: {
+                    id: user.id
+                }
+            }, 
+                (token) => res.status(200).json({response: {token, user}}),
+                ({status, errors}) => res.status(status || 400).json({response: {errors} || {}})
+            );
+            
+        }catch(e){
+            const { status, errors } = e;
+            
+            return res.status(status || 400).json({errors} || {});
+        }
     },
     authenticate: async (req, res) => {
         
