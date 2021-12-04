@@ -62,6 +62,17 @@ module.exports = {
         }
     },
     authenticate: async (req, res) => {
-        
+        try{
+            const user = await db.User.findById(req.user.id).select('-password');
+
+            if(!user) throw {status: 400, errors: 'Fallo autenticacion'}
+
+            return res.status(200).json({response: user});
+
+        }catch(e){
+            const { status, errors } = e;
+
+            return res.status(status || 400).json({errors} || {});
+        }
     }
 }
