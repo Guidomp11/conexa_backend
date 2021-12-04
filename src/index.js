@@ -8,6 +8,11 @@ const limiter = require('./middlewares/limiter');
 const errorHandler = require('./middlewares/errorHandler');
 //#endregion
 
+//#region DB REQUIRE & CONNECTION
+const connectDB = require('./database/config');
+connectDB();
+//#endregion
+
 const app = express();
 
 //#region MIDDLEWARES
