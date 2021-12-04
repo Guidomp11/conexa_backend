@@ -24,6 +24,12 @@ app.use(express.json());
 app.use(errorHandler);
 //#endregion
 
+//#region ROUTES REQUIRE & IMPLEMENTATION
+const authRouter = require('./routes/authRouter');
+
+app.use('/api/auth', authRouter);
+//#endregion
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => console.log(`SERVER RUNNING`));
