@@ -1,5 +1,6 @@
 const db = require('../database/models');
 const bcryptjs = require('bcryptjs');
+const sanitize = require('../functions/db_sanitize');
 const generateJWT = require('../functions/generateJWT');
 const validateRequest = require('../functions/validateRequest');
 
@@ -7,7 +8,7 @@ module.exports = {
     signup: async (req, res) => {
         validateRequest(req, (errors) =>  { throw {status: 400, errors} });
             
-            const { email, password, username } = req.body;
+            const { email, password, username } = sanitize(req.body);
 
             const emailInUse = await db.User.findOne({email}) ? true : false;
 
@@ -38,7 +39,7 @@ module.exports = {
         try{
             validateRequest(req, (errors) =>  { throw {status: 400, errors} });
 
-            const { email, password } = req.body;
+            const { email, password } = sanitize(req.body);
 
             const user = await db.User.findOne({email});
 
