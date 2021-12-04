@@ -5,7 +5,7 @@ module.exports = {
         try{
             const { offset, limit } = req.query;
 
-            if(!offset || !limit) throw {status: 400, msg: `Offset: ${offset} - Limit: ${limit}`};
+            if(!offset || !limit) throw {status: 400, errors: `Offset: ${offset} - Limit: ${limit}`};
 
             const photos = await fetch(`http://jsonplaceholder.typicode.com/photos?_start=${offset}&_limit=${limit}`);
             
