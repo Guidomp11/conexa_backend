@@ -26,8 +26,10 @@ app.use(errorHandler);
 
 //#region ROUTES REQUIRE & IMPLEMENTATION
 const authRouter = require('./routes/authRouter');
+const listingRouter = require('./routes/listingRouter');
 
 app.use('/api/auth', authRouter);
+app.use('/api/listing', listingRouter);
 //#endregion
 
 const PORT = process.env.PORT || 4000;

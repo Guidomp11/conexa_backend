@@ -6,7 +6,8 @@ const validateRequest = require('../functions/validateRequest');
 
 module.exports = {
     signup: async (req, res) => {
-        validateRequest(req, (errors) =>  { throw {status: 400, errors} });
+        try{
+            validateRequest(req, (errors) =>  { throw {status: 400, errors} });
             
             const { email, password, username } = sanitize(req.body);
 
@@ -34,6 +35,12 @@ module.exports = {
                 (token) => res.status(200).json({response: {token, user}}),
                 ({status, errors}) => res.status(status || 400).json({response: {errors} || {}})
             );
+
+        }catch(e){
+            const { status, errors } = e;
+
+            return res.status(status || 400).json({errors} || {});
+        }
     },
     signin: async (req, res) => {
         try{
